@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <title>Mathe-Überprüfung – 18 Aufgaben</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 40px;
+    }
+    .question {
+      margin-bottom: 20px;
+    }
+    input {
+      padding: 10px;
+      font-size: 1.1em;
+      width: 120px;
+      text-align: center;
+    }
+    .correct {
+      background-color: #c8f7c5;
+    }
+    .wrong {
+      background-color: #f7c5c5;
+    }
+    button {
+      padding: 8px 16px;
+      margin-left: 10px;
+      font-size: 1em;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Mathe-Überprüfung</h1>
+  <p>Trage dein Ergebnis in Euro ein. Das Eurozeichen kannst du weglassen. Grün = richtig, Rot = falsch. Wenn du fertig bist, zeige deinem Lehrer dein Ergebnis!</p>
+
+  <div id="quiz"></div>
+
+  <script>
+    const tasks = [
+      { question: "1. Wie viel bezahlt Peter für seinen Einkauf?", answer: 4.03, type: "number" },
+      { question: "2. Wie viel kosten 4 Eier?", answer: 0.8, type: "number" },
+      { question: "3. Hat Peter mehr Geld verdient, als er für den Einkauf ausgegeben hat?", answer: "Nein", type: "text" },  // Textantwort!
+      { question: "4. Wie viel hat Patricia für den Einkauf bezahlt?", answer: 7.01, type: "number" },
+      { question: "5. Wie viel bezahlt Patricia für den Einkauf, nachdem sie Haselnüsse und Sultaninen gekauft hat?", answer: 11.19, type: "number" },
+      { question: "6. Wie viel kostet ein Cookie von Patricia?", answer: 0.3, type: "number" },
+      { question: "7. Wie viel bezahlt Pascale für seinen Einkauf?", answer: 10.43, type: "number" },
+      { question: "8. Wie viel kosten 100g Zartbitter-Schokolade?", answer: 1.2, type: "number" },
+      { question: "9. Wie viel Gewinn erzielt Pascale durch seinen Muffinverkauf?", answer: 5.57, type: "number" },
+      { question: "10. Wie viel bezahlt Paula für ihren Einkauf?", answer: 6.27, type: "number" },
+      { question: "11. Wie viel Wechselgeld erhält Paula?", answer: 3.73, type: "number" },
+      { question: "12. Wie viel kostet ein Stück von Paulas Kuchen?", answer: 0.85, type: "number" },
+      { question: "13. Wie viel bezahlt Phillip für seinen Einkauf?", answer: 8.45, type: "number" },
+      { question: "14. Wie viele Pizzaschnecken muss Phillip machen, um seine Einkaufskosten wieder einzunehmen?", answer: 17, type: "number" },
+      { question: "15. Wie viel Geld muss Phillip noch einzahlen, wenn er einen Gesamtbetrag von 10 € zur Klassenkasse beitragen möchte?", answer: 1.5, type: "number" },
+      { question: "16. Wie viel bezahlt Petra für ihren Einkauf?", answer: 8.75, type: "number" },
+      { question: "17. Welche Kosten ergeben sich, wenn Petra zwei Kuchen bäckt?", answer: 17.5, type: "number" },
+      { question: "18. Wie viel muss ein Stück von Petras Kuchen kosten?", answer: 0.55, type: "number" }
+    ];
+
+    const quizContainer = document.getElementById("quiz");
+
+    tasks.forEach((task, index) => {
+      const div = document.createElement("div");
+      div.className = "question";
+      div.innerHTML = `
+        <label>${task.question}</label><br>
+        <input type="text" id="input-${index}" placeholder="Antwort">
+        <button onclick="checkAnswer(${index})">Prüfen</button>
+      `;
+      quizContainer.appendChild(div);
+    });
+
+    function checkAnswer(index) {
+      const task = tasks[index];
+      const input = document.getElementById(`input-${index}`);
+      const userInput = input.value.trim();
+
+      if (task.type === "number") {
+        const userValue = parseFloat(userInput.replace(",", "."));
+        if (isNaN(userValue)) {
+          input.classList.remove("correct", "wrong");
+          return;
+        }
+        if (Math.abs(userValue - task.answer) < 0.01) {
+          input.classList.remove("wrong");
+          input.classList.add("correct");
+        } else {
+          input.classList.remove("correct");
+          input.classList.add("wrong");
+        }
+      } else if (task.type === "text") {
+        if (userInput.toLowerCase() === task.answer.toLowerCase()) {
+          input.classList.remove("wrong");
+          input.classList.add("correct");
+        } else {
+          input.classList.remove("correct");
+          input.classList.add("wrong");
+        }
+      }
+    }
+  </script>
+
+</body>
+</html>
